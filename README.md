@@ -31,7 +31,7 @@
   <li>An array of options can be retrieved. options</li>
   <li>Different events are available:
     <ul>
-      <li>input onchange When the value of the input field cahnges.</li>
+      <li>input onchange When the value of the input field changes.</li>
       <li>options onselect When one of the options is selected.</li>
       <li>list onvisibilitychange When the visibility of the dropdown list changes.</li>
       <li>list onswitchbefore Is invoked before switching to another combox box.</li>
