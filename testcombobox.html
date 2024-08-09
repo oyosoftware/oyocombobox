@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test Combo Box</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+		<script src="oyocombobox.js"></script>
+		<style>
+            ::-webkit-scrollbar {
+                width               : 10px;
+                height              : 10px;
+            }
+            ::-webkit-scrollbar-corner {
+                background-color    : transparent;
+            }
+            ::-webkit-scrollbar-thumb {
+                border              : 2px solid black;
+                border-radius       : 5px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color    : white;
+            }
+		</style>
+	</head>
+	<body>
+
+		<script>
+            $(document).ready(function () {
+
+				comboBox1 = new oyoComboBox(250, 650);
+				comboBox1.changePlaceHolder("Select Country");
+				$(comboBox1).addClass("combobox1");
+				$(comboBox1).css("display", "inline-block");
+				$(comboBox1).css("margin", "10px");
+				$(comboBox1).css("z-index", "1");
+				$(comboBox1).css("float", "left");
+				$(comboBox1).css("font-size", "20px");
+				$("body").append(comboBox1);
+
+				var flag = document.createElement("img");
+				$(flag).outerWidth("50");
+				$(flag).css("margin", "2px");
+				$(flag).css("margin-right", "10px");
+                $(flag).css("border", "1px solid black");
+
+				$(flag).attr("src", "flags/au.svg");
+				comboBox1.addOption("Australia", flag);
+				$(flag).attr("src", "flags/be.svg");
+				comboBox1.addOption("Belgium", flag);
+				$(flag).attr("src", "flags/ca.svg");
+				comboBox1.addOption("Canada", flag);
+				$(flag).attr("src", "flags/de.svg");
+				comboBox1.addOption("Germany", flag);
+				$(flag).attr("src", "flags/ie.svg");
+				comboBox1.addOption("Ireland", flag);
+				$(flag).attr("src", "flags/nl.svg");
+				comboBox1.addOption("Netherlands", flag);
+				$(flag).attr("src", "flags/us.svg");
+				comboBox1.addOption("U.S.A.", flag);
+				$(flag).attr("src", "flags/gb.svg");
+				comboBox1.addOption("United Kingdom", flag);
+				comboBox1.changeText("U.S.A.");
+
+				comboBox2 = new oyoComboBox(null, 407.5);
+				comboBox2.changePlaceHolder("Select Country");
+				comboBox2.changeColors("#B3CEB3", "#527FC3");
+				$(comboBox2).addClass("combobox2");
+				$(comboBox2).css("display", "inline-block");
+				$(comboBox2).css("margin", "10px");
+				$(comboBox2).css("z-index", "1");
+				$(comboBox2).css("float", "left");
+				$(comboBox2).css("font-weight", "bold");
+				$(comboBox2).css("font-size", "50px");
+				$("input", comboBox2).attr("size", 11);
+				$("body").append(comboBox2);
+
+				var wrapper = document.createElement("div");
+				$(wrapper).outerWidth(103);
+				$(wrapper).css("display", "inline-block");
+				var checkbox = document.createElement("input");
+				$(checkbox).attr("type", "checkbox");
+				$(checkbox).css("margin", "2px");
+				$(checkbox).trigger("click");
+				$(wrapper).append(checkbox);
+				var date = document.createElement("input");
+				$(date).outerWidth(95, true);
+				$(date).attr("type", "date");
+				$(date).val("2024-03-01");
+				$(date).css("margin", "2px");
+				$(date).css("font-weight", "bold");
+				$(date).attr("disabled", "disabled");
+				$(date).css("border-color", "black");
+				$(date).css("color", "black");
+
+				comboBox2.addOption("Australia");
+				comboBox2.addOption("Belgium");
+				comboBox2.addOption("Canada", "<div style='font-size:10px'>Canada&nbsp;&nbsp;</div>");
+				comboBox2.addOption("Germany");
+				comboBox2.addOption("Ireland");
+				comboBox2.addOption("Netherlands", date);
+				comboBox2.addOption("U.S.A.", checkbox);
+				comboBox2.addOption("United Kingdom", wrapper);
+
+            });
+		</script>
+
+	</body>
+</html>
