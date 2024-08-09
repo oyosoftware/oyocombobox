@@ -22,8 +22,8 @@
 <p>jQuery component for a combo box.</p>
 <h3>Features</h3>
 <ul>
-  <li>A tool to make a combo box with a dropdown.</li>
-  <li></li>
+  <li>A combo box with a dropdown to select options.</li>
+  <li>You can add second content on the left to visualize the options.</li>
   <li></li>
   <li></li>
   <li></li>
