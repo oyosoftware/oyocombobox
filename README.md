@@ -1,8 +1,8 @@
 # oyocombobox
-<a href="http://oyosoftware.nl/plugins/oyotableheader/testtableheader.html" target="_blank">
-  <img src="http://oyosoftware.nl/plugins/oyotableheader/oyotableheader.jpg" alt="oyotabset">
+<a href="http://oyosoftware.nl/plugins/oyocombobox/testcombobox.html" target="_blank">
+  <img src="http://oyosoftware.nl/plugins/oyocombobox/oyocombobox.jpg" alt="oyocombobox">
 </a>
-<p>Table Header Component</p>
+<p>Combo Box Component</p>
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;currency_code=EUR&amp;business=code@oyosoftware.nl&amp;item_name=donation%20for%20oyotableheader" rel="nofollow">
   <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate via PayPal" style="max-width: 100%;vertical-align: top">
 </a>
