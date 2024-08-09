@@ -13,20 +13,20 @@
 </div>
 <ul>
   <li><strong>category</strong> component</li>
-  <li><strong>copyright</strong> 2022 oyosoftware </li>
+  <li><strong>copyright</strong> 2024 oyosoftware </li>
   <li><strong>license</strong> MIT License</li>
-  <li><strong>link</strong> http://www.oyosoftware.nl/plugins/oyotableheader/testtableheader.html</li>
-  <li><strong>source</strong> https://github.com/oyosoftware/oyotableheader</li>
+  <li><strong>link</strong> http://www.oyosoftware.nl/plugins/oyocombobox/testcombobox.html</li>
+  <li><strong>source</strong> https://github.com/oyosoftware/oyocombobox</li>
 </ul>
 <h2>Description</h2>
-<p>jQuery component for a fixed table header.</p>
+<p>jQuery component for a combo box.</p>
 <h3>Features</h3>
 <ul>
-  <li>A tool to give a table a fixed header.</li>
-  <li>Unlike a 'sticky' header, it can be placed anywhere.</li>
-  <li>Unlike a 'sticky'header, it doesn't bounce.</li>
-  <li>Be sure to cover the original header.</li>
-  <li>Border can be changed and border type can be table, cell or none</li>
+  <li>A tool to make a combo box with a dropdown.</li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
   <li>Background color and text color can be changed.</li>
 </ul>
 <h2>Contact</h2>
