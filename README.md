@@ -29,7 +29,15 @@
   <li>A place holder can be given for the input field. changePlaceHolder(text)</li>
   <li>Background color and selection color can be changed. changeColors(backgroundColor, selectionColor)</li>
   <li>An array of options can be retrieved. options</li>
-  
+  <li>Different events are available:
+    <ul>
+      <li>input onchange</li>
+      <li>options onselect</li>
+      <li>list onvisibilitychange</li>
+      <li>list onswitchbefore</li>
+      <li>list onswitchafter</li>
+    </ul>  
+  </li>
 </ul>
 <h2>Contact</h2>
 <ul>
