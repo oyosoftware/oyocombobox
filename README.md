@@ -23,11 +23,12 @@
 <h3>Features</h3>
 <ul>
   <li>A combo box with a dropdown to select options.</li>
+  <li>Add options with addOption command.</li>
   <li>You can add second content on the left to visualize the options.</li>
-  <li></li>
-  <li></li>
-  <li></li>
-  <li>Background color and text color can be changed.</li>
+  <li>An initial value can be set for the input field.</li>
+  <li>A place holder can be given for the input field.</li>
+  <li>Background color and selection color can be changed.</li>
+  <li>An array of options can be retrieved.</li>
 </ul>
 <h2>Contact</h2>
 <ul>
