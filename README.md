@@ -43,6 +43,3 @@
 <ul>
 <li>oyosoftware <a href="mailto:code@oyosoftware.nl">code@oyosoftware.nl</a></li>
 </ul>
-
-
-
