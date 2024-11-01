@@ -400,7 +400,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         $(comboBoxOption).css("cursor", "pointer");
         $(comboBoxList).append(comboBoxOption);
 
-        text = normalizeText(text);
+        text = htmlUnescape(normalizeText(text));
 
         var comboBoxOptionText = document.createElement("div");
         $(comboBoxOptionText).addClass("oyocomboboxoptiontext");
@@ -611,6 +611,15 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         text = normalizeText(text);
         $(comboBoxInput).val(text);
         $(comboBoxInput).trigger("keyup", text);
+    }
+
+    function htmlUnescape(str) {
+        return str
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, '&')
+            .replace(/&apos;/g, "'")
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>');
     }
 
     return comboBox;
