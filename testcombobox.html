@@ -30,12 +30,11 @@
 
 				comboBox1 = new oyoComboBox(250, 650);
 				comboBox1.changePlaceHolder("Select Country");
-				$(comboBox1).addClass("combobox1");
 				$(comboBox1).css("display", "inline-block");
 				$(comboBox1).css("margin", "10px");
-				$(comboBox1).css("z-index", "1");
 				$(comboBox1).css("float", "left");
 				$(comboBox1).css("font-size", "20px");
+                $(comboBox1).find("input").attr("autofocus", "autofocus");
 				$("body").append(comboBox1);
 
 				var flag = document.createElement("img");
@@ -60,15 +59,13 @@
 				comboBox1.addOption("U.S.A.", flag);
 				$(flag).attr("src", "flags/gb.svg");
 				comboBox1.addOption("United Kingdom", flag);
-				comboBox1.changeText("U.S.A.");
+				comboBox1.value = "U.S.A.";
 
-				comboBox2 = new oyoComboBox(null, 407.5);
+				comboBox2 = new oyoComboBox(null, 1807.5);
 				comboBox2.changePlaceHolder("Select Country");
 				comboBox2.changeColors("#B3CEB3", "#527FC3");
-				$(comboBox2).addClass("combobox2");
 				$(comboBox2).css("display", "inline-block");
 				$(comboBox2).css("margin", "10px");
-				$(comboBox2).css("z-index", "1");
 				$(comboBox2).css("float", "left");
 				$(comboBox2).css("font-weight", "bold");
 				$(comboBox2).css("font-size", "50px");
