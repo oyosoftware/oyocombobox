@@ -129,7 +129,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
     function resizeComboBox() {
         var comboBoxOptionTexts = $(".oyocomboboxoptiontext", comboBox);
         var comboBoxOptionContents = $(".oyocomboboxoptioncontent", comboBox);
-        var hidden = $(comboBoxOptionTexts).filter(function() {
+        var hiddenOptionTexts = $(comboBoxOptionTexts).filter(function() {
             return $(this).css("visibility") === "hidden";
         });
 
@@ -138,7 +138,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             $(comboBoxHeader).css("padding-left", "0px");
         }
 
-        if (comboBoxOptionTexts.length === hidden.length) {
+        if (comboBoxOptionTexts.length === hiddenOptionTexts.length) {
             $(comboBoxInput).css("max-width", "0px");
             $(comboBoxInput).css("padding", "0px");
             $(comboBoxInput).css("border-width", "0px");
@@ -210,25 +210,23 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
     $(comboBoxCaret).on("click", function () {
         if ($(comboBoxList).css("display") === "block") {
             $(comboBoxList).css("display", "none");
+            $(comboBoxList).trigger("visibilitychange");
             $(comboBoxCaretDown).css("display", "inline");
             $(comboBoxCaretUp).css("display", "none");
         } else {
             $(comboBoxList).css("display", "block");
+            $(comboBoxList).trigger("visibilitychange");
             $(comboBoxCaretDown).css("display", "none");
             $(comboBoxCaretUp).css("display", "inline");
-
-            var comboBoxOptions = $(".oyocomboboxoption", comboBox);
-            var comboBoxOptionTexts = $(".oyocomboboxoptiontext", comboBox);
-            var selection = $(".oyoselection", comboBox);
-            var length = $(selection).length;
-            if (length === 0) {
-                $(comboBoxOptions).eq(0).css("background-color", comboBox.selectionColor);
-                $(comboBoxOptions).eq(0).addClass("oyoselection");
-                $(comboBoxOptionTexts).eq(0).css("background-color", comboBox.selectionColor);
-            }
         }
-        $(comboBoxList).trigger("visibilitychange");
         $(comboBoxInput).focus();
+        var selection = $(".oyoselection", comboBox);
+        var scrollTop = comboBoxList.scrollTop;
+        var scrollBottom = comboBoxList.scrollTop + $(comboBoxList).innerHeight() - 1;
+        var top = comboBoxList.scrollTop + $(selection).position().top + $(selection).outerHeight() / 2;
+        if (top < scrollTop || top > scrollBottom) {
+            selection[0].scrollIntoView();
+        }
     });
 
     $(comboBoxInput).on("search", function () {
@@ -239,16 +237,18 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
     });
 
     $(comboBoxInput).on("keydown", function (event) {
-        var keys = [13, 27, 38, 40];
+        var keys = [13, 27, 33, 34, 38, 40];
         if (keys.includes(event.which)) {
             event.preventDefault();
         }
 
-        var keys = [38, 40];
+        var keys = [33, 34, 38, 40];
         if (keys.includes(event.which)) {
             var comboBoxOptions = $(".oyocomboboxoption", comboBox);
             var comboBoxOptionTexts = $(".oyocomboboxoptiontext", comboBox);
             var optionsLength = comboBoxOptions.length;
+            var scrollTop = comboBoxList.scrollTop;
+            var scrollBottom = comboBoxList.scrollTop + $(comboBoxList).innerHeight() - 1;
             var index;
 
             var selection = $(".oyoselection", comboBox);
@@ -258,29 +258,56 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             }
 
             if (index === undefined) {
-                if (event.which === 38) {
+                if (event.which === 33 || event.which === 38) {
                     index = optionsLength - 1;
                 }
-                if (event.which === 40) {
+                if (event.which === 34 || event.which === 40) {
                     index = 0;
                 }
             }
 
             var visible = $(comboBoxList).css("display") !== "none";
 
-            if (visible) {
+            var keys = [38, 40];
+            if (visible && keys.includes(event.which)) {
                 if (event.which === 38) {
-                    if (index !== 0) {
-                        index -= 1;
-                    } else {
+                    index -= 1;
+                    if (index < 0) {
                         index = optionsLength - 1;
                     }
                 }
                 if (event.which === 40) {
-                    if (index !== optionsLength - 1) {
-                        index += 1;
-                    } else {
+                    index += 1;
+                    if (index > optionsLength - 1) {
                         index = 0;
+                    }
+                }
+            }
+
+            var keys = [33, 34];
+            if (visible && keys.includes(event.which)) {
+                var optionsInViewLength = $(comboBoxOptions).filter(function () {
+                    var top = scrollTop + $(this).position().top + $(this).outerHeight() / 2;
+                    return top > scrollTop && top < scrollBottom;
+                }).length;
+                if (event.which === 33) {
+                    index -= optionsInViewLength - 1;
+                    if (index === (0) - (optionsInViewLength - 1)) {
+                        index = optionsLength - 1;
+                    } else {
+                        if (index < 0) {
+                            index = 0;
+                        }
+                    }
+                }
+                if (event.which === 34) {
+                    index += optionsInViewLength - 1;
+                    if (index === (optionsLength - 1) + (optionsInViewLength - 1)) {
+                        index = 0;
+                    } else {
+                        if (index > optionsLength - 1) {
+                            index = optionsLength - 1;
+                        }
                     }
                 }
             }
@@ -299,16 +326,16 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
                 $(comboBoxOptionTexts).eq(index).css("background-color", comboBox.selectionColor);
                 $(comboBoxOptions).removeClass("oyoselection");
                 $(comboBoxOptions).eq(index).addClass("oyoselection");
-
                 var selection = $(".oyoselection", comboBox);
-                var scrollTop = comboBoxList.scrollTop;
-                var scrollBottom = comboBoxList.scrollTop + $(comboBoxList).innerHeight() - 1;
                 var top = comboBoxList.scrollTop + $(selection).position().top + $(selection).outerHeight() / 2;
-                if (top < scrollTop) {
-                    comboBoxOptions[index].scrollIntoView();
-                } else {
-                    if (top > scrollBottom) {
-                        comboBoxOptions[index].scrollIntoView();
+                if (top < scrollTop || top > scrollBottom) {
+                    var keys = [33, 38];
+                    if (keys.includes(event.which)) {
+                        selection[0].scrollIntoView(true);
+                    }
+                    var keys = [34, 40];
+                    if (keys.includes(event.which)) {
+                        selection[0].scrollIntoView(false);
                     }
                 }
             }
@@ -385,18 +412,16 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
                 var scrollTop = comboBoxList.scrollTop;
                 var scrollBottom = comboBoxList.scrollTop + $(comboBoxList).innerHeight() - 1;
                 var top = comboBoxList.scrollTop + $(selection).position().top + $(selection).outerHeight() / 2;
-                if (top < scrollTop) {
-                    comboBoxOptions[index].scrollIntoView();
-                } else {
-                    if (top > scrollBottom) {
-                        comboBoxOptions[index].scrollIntoView();
-                    }
+                if (top < scrollTop || top > scrollBottom) {
+                    selection[0].scrollIntoView();
                 }
             }
 
             if (event.which === 13 || Boolean(value)) {
                 if (visible) {
                     $(comboBoxOptions).eq(index).trigger("click");
+                    $(comboBoxList).css("display", "none");
+                    $(comboBoxList).trigger("visibilitychange");
                     $(comboBoxCaretDown).css("display", "inline");
                     $(comboBoxCaretUp).css("display", "none");
                     event.stopImmediatePropagation();
@@ -405,6 +430,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
 
             if (event.which === 27) {
                 $(comboBoxList).css("display", "none");
+                $(comboBoxList).trigger("visibilitychange");
                 $(comboBoxCaretDown).css("display", "inline");
                 $(comboBoxCaretUp).css("display", "none");
             }
@@ -439,6 +465,21 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
     $(comboBoxList).on("visibilitychange", function (event) {
         var visible = $(event.target).css("display") !== "none";
         event.visibility = visible;
+        var comboBoxOptions = $(".oyocomboboxoption", comboBox);
+        var comboBoxOptionTexts = $(".oyocomboboxoptiontext", comboBox);
+        var inputString = $(comboBoxInput).val().toLowerCase();
+        var index = $(comboBoxOptions).filter(function () {
+            return $(this).text().toLowerCase().indexOf(inputString) === 0;
+        }).eq(0).index();
+        if (index === undefined) {
+            index = 0;
+        }
+        $(comboBoxOptions).css("background-color", comboBox.backgroundColor);
+        $(comboBoxOptionTexts).css("background-color", comboBox.backgroundColor);
+        $(comboBoxOptions).eq(index).css("background-color", comboBox.selectionColor);
+        $(comboBoxOptionTexts).eq(index).css("background-color", comboBox.selectionColor);
+        $(comboBoxOptions).removeClass("oyoselection");
+        $(comboBoxOptions).eq(index).addClass("oyoselection");
     });
 
     function normalizeText(text) {
@@ -632,6 +673,20 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
                 $(comboBoxInput).trigger("change");
             }
             $(comboBoxOption).trigger("optionselect");
+        });
+
+        $(comboBoxOption).on("mouseover", function (event) {
+            $(comboBoxOption).on("mousemove", function (event) {
+                var comboBoxOptions = $(".oyocomboboxoption", comboBox);
+                var comboBoxOptionTexts = $(".oyocomboboxoptiontext", comboBox);
+                var index = $(event.currentTarget).index();
+                $(comboBoxOptions).css("background-color", comboBox.backgroundColor);
+                $(comboBoxOptionTexts).css("background-color", comboBox.backgroundColor);
+                $(comboBoxOptions).eq(index).css("background-color", comboBox.selectionColor);
+                $(comboBoxOptionTexts).eq(index).css("background-color", comboBox.selectionColor);
+                $(comboBoxOptions).removeClass("oyoselection");
+                $(comboBoxOptions).eq(index).addClass("oyoselection");
+            });
         });
     };
 
