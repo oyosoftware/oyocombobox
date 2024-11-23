@@ -675,18 +675,16 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             $(comboBoxOption).trigger("optionselect");
         });
 
-        $(comboBoxOption).on("mouseover", function (event) {
-            $(comboBoxOption).on("mousemove", function (event) {
-                var comboBoxOptions = $(".oyocomboboxoption", comboBox);
-                var comboBoxOptionTexts = $(".oyocomboboxoptiontext", comboBox);
-                var index = $(event.currentTarget).index();
-                $(comboBoxOptions).css("background-color", comboBox.backgroundColor);
-                $(comboBoxOptionTexts).css("background-color", comboBox.backgroundColor);
-                $(comboBoxOptions).eq(index).css("background-color", comboBox.selectionColor);
-                $(comboBoxOptionTexts).eq(index).css("background-color", comboBox.selectionColor);
-                $(comboBoxOptions).removeClass("oyoselection");
-                $(comboBoxOptions).eq(index).addClass("oyoselection");
-            });
+        $(comboBoxOption).on("mousemove", function (event) {
+            var comboBoxOptions = $(".oyocomboboxoption", comboBox);
+            var comboBoxOptionTexts = $(".oyocomboboxoptiontext", comboBox);
+            var index = $(event.currentTarget).index();
+            $(comboBoxOptions).css("background-color", comboBox.backgroundColor);
+            $(comboBoxOptionTexts).css("background-color", comboBox.backgroundColor);
+            $(comboBoxOptions).eq(index).css("background-color", comboBox.selectionColor);
+            $(comboBoxOptionTexts).eq(index).css("background-color", comboBox.selectionColor);
+            $(comboBoxOptions).removeClass("oyoselection");
+            $(comboBoxOptions).eq(index).addClass("oyoselection");
         });
     };
 
