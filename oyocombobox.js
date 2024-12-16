@@ -189,6 +189,40 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         }
     }
 
+    function setOptionLinesInView() {
+        var display = $(comboBoxList).css("display");
+        $(comboBoxList).css("display", "block");
+        var comboBoxOptions = $(".oyocomboboxoption", comboBox);
+        var optionsLength = comboBoxOptions.length;
+        var comboBoxListHeight = Math.round($(comboBoxList).innerHeight());
+        optionLinesInView = optionsLength;
+        for (i = 0; i < optionsLength; i++) {
+            var listHeight = 0, optionsInViewLength = 0;
+            var indexFrom = i;
+            if (indexFrom > (optionsLength - 1) - (optionLinesInView - 1)) {
+                indexFrom = (optionsLength - 1) - (optionLinesInView - 1);
+            }
+            var indexTo = indexFrom + optionLinesInView;
+            for (j = indexFrom; j < indexTo; j++) {
+                var option = $(comboBoxOptions).eq(j);
+                var optionHeight = $(option).outerHeight();
+                if (listHeight + optionHeight <= comboBoxListHeight) {
+                    listHeight += optionHeight;
+                    optionsInViewLength += 1;
+                } else {
+                    break;
+                }
+            }
+            if (optionLinesInView === 0 || (optionsInViewLength < optionLinesInView)) {
+                optionLinesInView = optionsInViewLength;
+            }
+            if (indexFrom === (optionsLength - 1) - (optionLinesInView - 1)) {
+                break;
+            }
+        }
+        $(comboBoxList).css("display", display);
+    }
+
     function resizeComboBoxList(index, top) {
         if ($(comboBoxList).css("display") === "block") {
             var comboBoxOptions = $(".oyocomboboxoption", comboBox);
@@ -235,38 +269,20 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         }
     }
 
-    function setOptionLinesInView() {
-        var display = $(comboBoxList).css("display");
-        $(comboBoxList).css("display", "block");
+    function searchOption() {
         var comboBoxOptions = $(".oyocomboboxoption", comboBox);
-        var optionsLength = comboBoxOptions.length;
-        var comboBoxListHeight = Math.round($(comboBoxList).innerHeight());
-        optionLinesInView = optionsLength;
-        for (i = 0; i < optionsLength; i++) {
-            var listHeight = 0, optionsInViewLength = 0;
-            var indexFrom = i;
-            if (indexFrom > (optionsLength - 1) - (optionLinesInView - 1)) {
-                indexFrom = (optionsLength - 1) - (optionLinesInView - 1);
-            }
-            var indexTo = indexFrom + optionLinesInView;
-            for (j = indexFrom; j < indexTo; j++) {
-                var option = $(comboBoxOptions).eq(j);
-                var optionHeight = $(option).outerHeight();
-                if (listHeight + optionHeight <= comboBoxListHeight) {
-                    listHeight += optionHeight;
-                    optionsInViewLength += 1;
-                } else {
-                    break;
-                }
-            }
-            if (optionLinesInView === 0 || (optionsInViewLength < optionLinesInView)) {
-                optionLinesInView = optionsInViewLength;
-            }
-            if (indexFrom === (optionsLength - 1) - (optionLinesInView - 1)) {
-                break;
-            }
+        var foundOptions = $(comboBoxOptions).filter(function () {
+            return $(this).text().toLowerCase().indexOf(comboBoxInput.value.toLowerCase()) === 0;
+        });
+        var index = foundOptions.eq(0).index();
+        if (comboBoxInput.value === "") {
+            index = -1;
         }
-        $(comboBoxList).css("display", display);
+        if (index === -1) {
+            index = 0;
+            $(comboBoxSelectionBox).html("");
+        }
+        return index;
     }
 
     function setSelectedOption(index) {
@@ -460,7 +476,6 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         var keys = [8, 46];
         if (isCharacter || keys.includes(event.which)) {
             index = searchOption();
-
         }
 
         if (!isCharacter && !keys.includes(event.which)) {
@@ -469,11 +484,6 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             if (length > 0) {
                 index = $(selection).index();
             }
-        }
-
-        if (index === undefined) {
-            index = 0;
-            $(comboBoxSelectionBox).html("");
         }
 
         var visible = $(comboBoxList).css("display") !== "none";
@@ -987,17 +997,6 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         }
         var index = searchOption();
         setSelectedOption(index);
-    }
-
-    function searchOption() {
-        var comboBoxOptions = $(".oyocomboboxoption", comboBox);
-        var index = $(comboBoxOptions).filter(function () {
-            return $(this).text().toLowerCase().indexOf(comboBoxInput.value.toLowerCase()) === 0;
-        }).eq(0).index();
-        if (index === -1) {
-            index = 0;
-        }
-        return index;
     }
 
     function normalizeText(text) {
