@@ -26,6 +26,8 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
     var defaultHoverTextColor = "black";
     var optionLinesScroll = 4;
     var optionLinesInView = 0;
+    var dropdownOnly = false;
+    var timeout, inputValue = "";
 
     var comboBox = document.createElement("div");
     $(comboBox).addClass("oyocombobox");
@@ -59,6 +61,8 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
     $(comboBoxInput).css("position", "relative");
     $(comboBoxInput).css("border", "1px solid black");
     $(comboBoxInput).css("outline", "none");
+    comboBoxInput.oldValue = "";
+    comboBoxInput.newValue = "";
     $(comboBoxHeader).append(comboBoxInput);
 
     var comboBoxInputCancelButton = createInputCancelButton();
@@ -131,6 +135,20 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         },
         set: function (value) {
             optionLinesScroll = value;
+        }
+    });
+
+    Object.defineProperty(comboBox, "dropdown", {
+        get: function () {
+            return dropdownOnly;
+        },
+        set: function (value) {
+            dropdownOnly = value;
+            if (dropdownOnly) {
+                $(comboBoxInput).css("caret-color", "transparent");
+            } else {
+                $(comboBoxInput).css("caret-color", "auto");
+            }
         }
     });
 
@@ -271,11 +289,31 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
 
     function searchOption() {
         var comboBoxOptions = $(".oyocomboboxoption", comboBox);
+        if (dropdownOnly) {
+            clearTimeout(timeout);
+            timeout = setTimeout(clearInputValue, 1000);
+        }
+        if (dropdownOnly) {
+            if (Boolean(inputValue)) {
+                var currentOption = $(comboBoxOptions).filter(function () {
+                    return $(this).text().toLowerCase().indexOf(comboBoxInput.newValue.toLowerCase()) === 0;
+                });
+                var searchValue = $(currentOption).eq(0).text();
+                var pos = $(currentOption).eq(0).text().toLowerCase().indexOf(inputValue.toLowerCase());
+                if (pos !== 0) {
+                    var searchValue = inputValue;
+                }
+            } else {
+                var searchValue = comboBoxInput.value;
+            }
+        } else {
+            var searchValue = comboBoxInput.value;
+        }
         var foundOptions = $(comboBoxOptions).filter(function () {
-            return $(this).text().toLowerCase().indexOf(comboBoxInput.value.toLowerCase()) === 0;
+            return $(this).text().toLowerCase().indexOf(searchValue.toLowerCase()) === 0;
         });
         var index = foundOptions.eq(0).index();
-        if (comboBoxInput.value === "") {
+        if (!dropdownOnly && comboBoxInput.value === "") {
             index = -1;
         }
         if (index === -1) {
@@ -295,6 +333,10 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         $(comboBoxOptions).eq(index).find("*").css("color", comboBox.selectionTextColor);
         $(comboBoxOptions).removeClass("oyoselection");
         $(comboBoxOptions).eq(index).addClass("oyoselection");
+    }
+
+    function clearInputValue() {
+        inputValue = "";
     }
 
     $(window).on("focusout", function (event) {
@@ -359,11 +401,24 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             setOptionLinesInView();
         }
 
-        comboBoxInput.oldValue = comboBoxInput.value;
-
         var keys = [13, 27, 33, 34, 38, 40];
         if (keys.includes(event.which)) {
             event.preventDefault();
+        }
+
+        if (dropdownOnly) {
+            var keys = [8, 46];
+            if (keys.includes(event.which)) {
+                event.preventDefault();
+            }
+        }
+
+        if (dropdownOnly) {
+            var charCode = event.key.charCodeAt(0);
+            var isCharacter = (event.key === String.fromCharCode(charCode));
+            if (isCharacter) {
+                event.preventDefault();
+            }
         }
 
         var keys = [33, 34, 38, 40];
@@ -470,12 +525,19 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         var index;
 
         if (event.key) {
-            var isCharacter = (event.key.toUpperCase() === String.fromCharCode(event.keyCode));
+            var charCode = event.key.charCodeAt(0);
+            var isCharacter = (event.key === String.fromCharCode(charCode));
         }
 
         var keys = [8, 46];
         if (isCharacter || keys.includes(event.which)) {
-            index = searchOption();
+            if (!dropdownOnly) {
+                index = searchOption();
+            }
+            if (dropdownOnly && isCharacter) {
+                inputValue += event.key;
+                index = searchOption();
+            }
         }
 
         if (!isCharacter && !keys.includes(event.which)) {
@@ -741,7 +803,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         $(comboBoxOption).trigger("optionadd");
 
         $(comboBoxOption).on("click", function () {
-            comboBoxInput.oldValue = comboBoxInput.value;
+            comboBoxInput.oldValue = comboBoxInput.newValue;
             comboBoxInput.value = $(comboBoxOptionText).prop("value");
             comboBoxInput.newValue = comboBoxInput.value;
             if (comboBoxInput.newValue !== comboBoxInput.oldValue) {
@@ -786,11 +848,14 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
                 }
             }
 
-            $(comboBoxList).css("display", "none");
-            $(comboBoxList).trigger("visibilitychange");
-            $(comboBoxCaretDown).css("display", "inline");
-            $(comboBoxCaretUp).css("display", "none");
-            $(comboBoxOption).trigger("optionselect");
+            if (!dropdownOnly || window.event.type === "click") {
+                $(comboBoxList).css("display", "none");
+                $(comboBoxList).trigger("visibilitychange");
+                $(comboBoxCaretDown).css("display", "inline");
+                $(comboBoxCaretUp).css("display", "none");
+                $(comboBoxOption).trigger("optionselect");
+            }
+
             $(comboBoxInput).focus();
         });
 
@@ -988,7 +1053,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
     };
 
     function changeValue(value) {
-        comboBoxInput.oldValue = comboBoxInput.value;
+        comboBoxInput.oldValue = comboBoxInput.newValue;
         value = normalizeText(value);
         comboBoxInput.value = value;
         comboBoxInput.newValue = comboBoxInput.value;
