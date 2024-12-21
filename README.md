@@ -22,21 +22,23 @@
 <p>jQuery component for a combo box.</p>
 <h3>Features</h3>
 <ul>
-  <li>A combo box with a dropdown to select options.</li>
+  <li>A combo box with a dropdown list to select options.</li>
   <li>Add options with addOption command.</li>
   <li>You can add second content on the left to visualize the options. addOption(text, content)</li>
-  <li>An initial value can be set for the input field. changeText(text)</li>
+  <li>An initial value can be set for the input field. comboBox.value = text</li>
   <li>A place holder can be given for the input field. changePlaceHolder(text)</li>
-  <li>Background color and selection color can be changed. changeColors(backgroundColor, selectionColor)</li>
+  <li>Background color, selection color and hover color can be changed. 
+    changeColors(backgroundColor, selectionColor, hoverColor, textColor, selectionTextColor, hoverTextColor)</li>
   <li>An array of options can be retrieved. options</li>
-  <li>Different events are available:
+  <li>Different extra events are available:
     <ul>
-      <li>onchange When the value of the input field changes.</li>
-      <li>onoptionselect When one of the options is selected.</li>
       <li>onoptionadd When an option is added to the list.</li>
+      <li>onoptionselect When one of the options is selected.</li>
+      <li>onchange When the value of the input field changes.</li>
       <li>onvisibilitychange When the visibility of the list changes.</li>
-    </ul>  
+    </ul>
   </li>
+  <li>Now also can be used as a dropdown "only" component.</li>
 </ul>
 <h2>Contact</h2>
 <ul>
