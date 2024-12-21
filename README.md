@@ -31,11 +31,10 @@
   <li>An array of options can be retrieved. options</li>
   <li>Different events are available:
     <ul>
-      <li>input onchange When the value of the input field changes.</li>
-      <li>options onselect When one of the options is selected.</li>
-      <li>list onvisibilitychange When the visibility of the dropdown list changes.</li>
-      <li>list onswitchbefore Is invoked before switching to another combox box.</li>
-      <li>list onswitchafter Is invoked after switching to another combox box.</li>
+      <li>onchange When the value of the input field changes.</li>
+      <li>onoptionselect When one of the options is selected.</li>
+      <li>onoptionadd When an option is added to the list.</li>
+      <li>onvisibilitychange When the visibility of the list changes.</li>
     </ul>  
   </li>
 </ul>
