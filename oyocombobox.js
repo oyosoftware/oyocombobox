@@ -569,10 +569,6 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             if (event.which === 13) {
                 if (visible) {
                     $(comboBoxOptions).eq(index).trigger("click");
-                    $(comboBoxList).css("display", "none");
-                    $(comboBoxList).trigger("visibilitychange");
-                    $(comboBoxCaretDown).css("display", "inline");
-                    $(comboBoxCaretUp).css("display", "none");
                     event.stopImmediatePropagation();
                 }
             }
@@ -851,14 +847,11 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
                 }
             }
 
-            if (!dropdownOnly || window.event.type === "click") {
-                $(comboBoxList).css("display", "none");
-                $(comboBoxList).trigger("visibilitychange");
-                $(comboBoxCaretDown).css("display", "inline");
-                $(comboBoxCaretUp).css("display", "none");
-                $(comboBoxOption).trigger("optionselect");
-            }
-
+            $(comboBoxList).css("display", "none");
+            $(comboBoxList).trigger("visibilitychange");
+            $(comboBoxCaretDown).css("display", "inline");
+            $(comboBoxCaretUp).css("display", "none");
+            $(comboBoxOption).trigger("optionselect");
             $(comboBoxInput).focus();
         });
 

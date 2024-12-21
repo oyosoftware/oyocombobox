@@ -74,11 +74,12 @@
 				$("body").append(comboBox2);
 
 				var wrapper = document.createElement("div");
-				$(wrapper).outerWidth(103);
+				$(wrapper).innerWidth(103);
 				$(wrapper).css("display", "inline-block");
 				var checkbox = document.createElement("input");
 				$(checkbox).attr("type", "checkbox");
 				$(checkbox).css("margin", "2px");
+                $(checkbox).css("vertical-align", "10px");
 				$(checkbox).trigger("click");
 				$(wrapper).append(checkbox);
 				var date = document.createElement("input");
