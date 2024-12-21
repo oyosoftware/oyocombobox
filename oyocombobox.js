@@ -754,6 +754,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
                 $(comboBoxOptionOverlay).css("position", "absolute");
                 $(comboBoxOptionOverlay).css("left", "0px");
                 $(comboBoxOptionOverlay).css("top", "0px");
+                $(comboBoxOptionOverlay).css("opacity", "0");
                 $(comboBoxOptionOverlay).css("z-index", 999);
                 $(comboBoxOption).append(comboBoxOptionOverlay);
                 $(comboBoxList).css("display", "none");
@@ -819,6 +820,8 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
                 var comboBoxSelectionContent = $(comboBoxOptionContent).clone();
                 $(comboBoxSelectionContent).removeClass("oyocomboboxoptioncontent");
                 $(comboBoxSelectionContent).addClass("oyocomboboxselectioncontent");
+                $(comboBoxSelectionContent).css("background-color", comboBox.backgroundColor);
+                $(comboBoxSelectionContent).css("color", comboBox.textColor);
                 $(comboBoxSelectionBox).html(comboBoxSelectionContent);
 
                 var headerHeight = $(comboBoxHeader).height();
