@@ -21,6 +21,9 @@
             ::-webkit-scrollbar-thumb {
                 background-color    : white;
             }
+            body {
+                white-space: nowrap;
+            }
 		</style>
 	</head>
 	<body>
@@ -28,11 +31,11 @@
 		<script>
             $(document).ready(function () {
 
-				comboBox1 = new oyoComboBox(250, 650);
+				comboBox1 = new oyoComboBox(250, 393.75);
 				comboBox1.changePlaceHolder("Select Country");
 				$(comboBox1).css("display", "inline-block");
 				$(comboBox1).css("margin", "10px");
-				$(comboBox1).css("float", "left");
+				$(comboBox1).css("vertical-align", "top");
 				$(comboBox1).css("font-size", "20px");
                 $(comboBox1).find("input").attr("autofocus", "autofocus");
 				$("body").append(comboBox1);
@@ -61,13 +64,13 @@
 				comboBox1.addOption("United Kingdom", flag);
 				comboBox1.value = "U.S.A.";
 
-				comboBox2 = new oyoComboBox(null, 1807.5);
+				comboBox2 = new oyoComboBox(525, 581.25);
 				comboBox2.changePlaceHolder("Select Country");
                 comboBox2.dropdown = true;
 				comboBox2.changeColors("#B3CEB3", "#527FC3", "white");
 				$(comboBox2).css("display", "inline-block");
 				$(comboBox2).css("margin", "10px");
-				$(comboBox2).css("float", "left");
+				$(comboBox2).css("vertical-align", "top");
 				$(comboBox2).css("font-weight", "bold");
 				$(comboBox2).css("font-size", "50px");
 				$("input", comboBox2).attr("size", 11);
@@ -100,7 +103,6 @@
 				comboBox2.addOption("Netherlands", date);
 				comboBox2.addOption("U.S.A.", checkbox);
 				comboBox2.addOption("United Kingdom", wrapper);
-
             });
 		</script>
 

@@ -178,14 +178,19 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         }
 
         if (comboBoxOptionTexts.length !== hiddenOptionTexts.length) {
+            var boxWidth;
             if (Boolean(comboBoxWidth)) {
-                $(comboBox).outerWidth(comboBoxWidth);
-                var headerWidth = Math.round($(comboBoxHeader).width());
-                var selectionBoxWidth = $(comboBoxSelectionBox).outerWidth(true);
-                var caretWidth = $(comboBoxCaret).outerWidth(true);
-                var width = headerWidth - selectionBoxWidth - caretWidth;
-                $(comboBoxInput).outerWidth(width, true);
+                boxWidth = comboBoxWidth;
+            } else {
+                $(comboBox).width("auto");
+                boxWidth = $(comboBox).outerWidth();
             }
+            $(comboBox).outerWidth(boxWidth);
+            var headerWidth = $(comboBoxHeader).width();
+            var selectionBoxWidth = $(comboBoxSelectionBox).outerWidth(true);
+            var caretWidth = $(comboBoxCaret).outerWidth(true);
+            var width = headerWidth - selectionBoxWidth - caretWidth;
+            $(comboBoxInput).outerWidth(width, true);
         } else {
             $(comboBoxInput).css("max-width", "0px");
             $(comboBoxInput).css("padding", "0px");
@@ -194,17 +199,39 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             $(comboBoxOptionTexts).css("display", "none");
         }
 
+        var listHeight;
+        var headerHeight = $(comboBoxHeader).outerHeight();
+        var zoom = window.devicePixelRatio || 1;
+        var borderHeight = parseFloat($(comboBoxList).css("border-bottom-width"));
         if (Boolean(comboBoxHeight)) {
-            var headerHeight = Math.round($(comboBoxHeader).outerHeight());
-            var listHeight = comboBoxHeight - headerHeight;
-            var comboBoxListOffsetTop = Math.round($(comboBoxList).offset().top);
-            var maxHeight = window.height - comboBoxListOffsetTop - 10;
-            if (listHeight > maxHeight) {
-                listHeight = maxHeight;
+            var boxHeight = comboBoxHeight;
+            if (zoom < 1) {
+                boxHeight = boxHeight / zoom;
             }
-            $(comboBox).outerHeight(headerHeight);
-            $(comboBoxList).outerHeight(listHeight);
+            $(comboBox).outerHeight(boxHeight);
+            listHeight = boxHeight - headerHeight - borderHeight;
+        } else {
+            $(comboBox).height("auto");
+            $(comboBoxList).height("auto");
+            var boxHeight = $(comboBox).outerHeight();
+            listHeight = boxHeight - headerHeight - borderHeight;
         }
+        var windowHeight = window.innerHeight;
+        var documentHeight = $("body").outerHeight(true);
+        if (windowHeight > documentHeight) {
+            var height = windowHeight;
+        } else {
+            var height = documentHeight;
+        }
+        var comboBoxListOffsetTop = $(comboBoxList).offset().top;
+        var marginBottom = parseFloat($(document.body).css("margin-bottom"));
+        var maxHeight = height - comboBoxListOffsetTop - marginBottom - 10;
+        if (listHeight > maxHeight) {
+            listHeight = maxHeight;
+        }
+        listHeight = parseFloat(listHeight.toFixed(3));
+        $(comboBox).outerHeight(headerHeight);
+        $(comboBoxList).innerHeight(listHeight);
     }
 
     function setOptionLinesInView() {
@@ -212,7 +239,7 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
         $(comboBoxList).css("display", "block");
         var comboBoxOptions = $(".oyocomboboxoption", comboBox);
         var optionsLength = comboBoxOptions.length;
-        var comboBoxListHeight = Math.round($(comboBoxList).innerHeight());
+        var comboBoxListHeight = Math.ceil($(comboBoxList).innerHeight());
         optionLinesInView = optionsLength;
         for (i = 0; i < optionsLength; i++) {
             var listHeight = 0, optionsInViewLength = 0;
@@ -237,6 +264,11 @@ function oyoComboBox(comboBoxWidth, comboBoxHeight) {
             if (indexFrom === (optionsLength - 1) - (optionLinesInView - 1)) {
                 break;
             }
+        }
+        if (optionLinesInView === optionsLength) {
+            $(comboBoxList).css("overflow-y", "hidden");
+        } else {
+            $(comboBoxList).css("overflow-y", "auto");
         }
         $(comboBoxList).css("display", display);
     }
