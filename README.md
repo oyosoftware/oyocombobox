@@ -1,6 +1,6 @@
 # oyocombobox
 <a href="http://oyosoftware.nl/plugins/oyocombobox/testcombobox.html" target="_blank">
-  <img src="http://oyosoftware.nl/plugins/oyocombobox/oyocombobox.jpg" alt="oyocombobox">
+  <img src="http://oyosoftware.nl/plugins/oyocombobox/oyocombobox2.jpg" alt="oyocombobox">
 </a>
 <p>Combo Box Component</p>
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;currency_code=EUR&amp;business=code@oyosoftware.nl&amp;item_name=donation%20for%20oyocombobox" rel="nofollow">
