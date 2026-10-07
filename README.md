@@ -1,5 +1,5 @@
 # oyocombobox
-<style>.revamped {display: inline-block; color: red}</style>
+<style>.revamped {display: inline-block !important; color: red}</style>
 <a href="http://oyosoftware.nl/plugins/oyocombobox/testcombobox.html" target="_blank">
   <img src="http://oyosoftware.nl/plugins/oyocombobox/oyocombobox2.jpg" alt="oyocombobox">
 </a>
