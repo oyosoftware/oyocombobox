@@ -31,7 +31,7 @@
 		<script>
             $(document).ready(function () {
                 $(document.body).innerHeight(2000);
-				comboBox1 = new oyoComboBox(260, 306.5); // 286
+				var comboBox1 = new oyoComboBox(260, 306.5); // 286
 				comboBox1.changePlaceHolder("Select Country");
 				$(comboBox1).css("display", "inline-block");
 				$(comboBox1).css("margin", "10px");
@@ -63,7 +63,7 @@
 				comboBox1.addOption("United Kingdom", flag);
 				comboBox1.setValue("Netherlands", true);
 
-				comboBox2 = new oyoComboBox("auto", "auto");
+				var comboBox2 = new oyoComboBox("auto", "auto");
 				comboBox2.changePlaceHolder("Select Country");
                 comboBox2.dropdown = true;
 				comboBox2.changeColors("#B3CEB3", "#527FC3", "white");
