@@ -4,7 +4,7 @@
 		<title>Test Combo Box</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 		<script src="oyocombobox.js"></script>
 		<style>
             ::-webkit-scrollbar {
@@ -30,14 +30,13 @@
 
 		<script>
             $(document).ready(function () {
-
-				comboBox1 = new oyoComboBox(250, 393.75);
+                $(document.body).innerHeight(2000);
+				comboBox1 = new oyoComboBox(260, 306.5); // 286
 				comboBox1.changePlaceHolder("Select Country");
 				$(comboBox1).css("display", "inline-block");
 				$(comboBox1).css("margin", "10px");
 				$(comboBox1).css("vertical-align", "top");
 				$(comboBox1).css("font-size", "20px");
-                $(comboBox1).find("input").attr("autofocus", "autofocus");
 				$("body").append(comboBox1);
 
 				var flag = document.createElement("img");
@@ -62,9 +61,9 @@
 				comboBox1.addOption("U.S.A.", flag);
 				$(flag).attr("src", "flags/gb.svg");
 				comboBox1.addOption("United Kingdom", flag);
-				comboBox1.value = "U.S.A.";
+				comboBox1.setValue("Netherlands", true);
 
-				comboBox2 = new oyoComboBox(525, 581.25);
+				comboBox2 = new oyoComboBox("auto", "auto");
 				comboBox2.changePlaceHolder("Select Country");
                 comboBox2.dropdown = true;
 				comboBox2.changeColors("#B3CEB3", "#527FC3", "white");
@@ -73,36 +72,67 @@
 				$(comboBox2).css("vertical-align", "top");
 				$(comboBox2).css("font-weight", "bold");
 				$(comboBox2).css("font-size", "50px");
-				$("input", comboBox2).attr("size", 11);
 				$("body").append(comboBox2);
 
-				var wrapper = document.createElement("div");
-				$(wrapper).innerWidth(103);
-				$(wrapper).css("display", "inline-block");
-				var checkbox = document.createElement("input");
-				$(checkbox).attr("type", "checkbox");
-				$(checkbox).css("margin", "2px");
-                $(checkbox).css("vertical-align", "10px");
-				$(checkbox).trigger("click");
-				$(wrapper).append(checkbox);
-				var date = document.createElement("input");
-				$(date).outerWidth(95, true);
-				$(date).attr("type", "date");
-				$(date).val("2024-03-01");
-				$(date).css("margin", "2px");
-				$(date).css("font-weight", "bold");
-				$(date).attr("disabled", "disabled");
-				$(date).css("border-color", "black");
-				$(date).css("color", "black");
+				var checkbox1 = document.createElement("input");
+				$(checkbox1).attr("type", "checkbox");
+				$(checkbox1).css("margin", "2px");
+				var checkbox2 = document.createElement("input");
+				$(checkbox2).attr("type", "checkbox");
+				$(checkbox2).css("margin", "2px");
+                $(checkbox2).attr("checked", "checked");
 
-				comboBox2.addOption("Australia");
-				comboBox2.addOption("Belgium");
-				comboBox2.addOption("Canada", "<div style='font-size:10px'>Canada&nbsp;&nbsp;</div>");
-				comboBox2.addOption("Germany");
-				comboBox2.addOption("Ireland");
-				comboBox2.addOption("Netherlands", date);
-				comboBox2.addOption("U.S.A.", checkbox);
-				comboBox2.addOption("United Kingdom", wrapper);
+				comboBox2.addOption("Australia", checkbox1);
+				comboBox2.addOption("Belgium", null, true, false);
+				comboBox2.addOption("Canada", checkbox2);
+				comboBox2.addOption("Germany", checkbox1);
+				comboBox2.addOption("Ireland", checkbox1);
+				comboBox2.addOption("Netherlands", checkbox2);
+				comboBox2.addOption("U.S.A.", checkbox2);
+				comboBox2.addOption("United Kingdom", checkbox2);
+
+                $(comboBox2).on("optionselect", function(event) {
+                    $(".message").remove();
+                    if (!event.selection.selectable) {
+                        var text = "Sorry, country " + event.value + " is not selectable";
+                        message(event, text);
+                    }
+                });
+
+                comboBox2.setValue("Netherlands", false);
+
+                function message(selectEvent, text) {
+                    var div = document.createElement("div");
+                    $(div).attr("class", "message");
+                    $(div).width(499);
+                    $(div).height(100);
+                    $(div).css("display", "none");
+                    $(div).css("position", "relative");
+                    $(div).css("left", "290px");
+                    $(div).css("text-align", "center");
+                    $(div).css("border", "10px solid #527FC3");
+                    var span = document.createElement("span");
+                    $(span).text(text);
+                    $(span).css("position", "relative");
+                    $(span).css("top", "25%");
+                    $(span).css("font-size", "20px");
+                    $(span).css("font-weight", "bold");
+                    $(div).append(span);
+                    var button = document.createElement("button");
+                    $(button).text("OK");
+                    $(button).css("position", "absolute");
+                    $(button).css("right", "8px");
+                    $(button).css("bottom", "8px");
+                    $(div).append(button);
+                    $("body").append(div);
+                    $(div).show(1000);
+                    $(button).focus();
+                    $(button).on("click", function(event) {
+                        $(div).hide(1000);
+                        $(selectEvent.currentTarget).find(".oyocomboboxinput").focus();
+                        event.stopImmediatePropagation();
+                    });
+                }
             });
 		</script>
 
