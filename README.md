@@ -1,5 +1,4 @@
 # oyocombobox
-<style>.revamped {display: inline-block !important; color: red}</style>
 <a href="http://oyosoftware.nl/plugins/oyocombobox/testcombobox.html" target="_blank">
   <img src="http://oyosoftware.nl/plugins/oyocombobox/oyocombobox2.jpg" alt="oyocombobox">
 </a>
@@ -21,7 +20,7 @@
 </ul>
 <h2>Description</h2>
 <p>jQuery component for a combo box.</p>
-<h3 class="revamped">Now totally revamped!</h3>
+<h3>Now totally revamped!</h3>
 <h3>Features</h3>
 <ul>
   <li>A combo box with a dropdown list to select options.</li>
