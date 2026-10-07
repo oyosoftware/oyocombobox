@@ -20,7 +20,7 @@
 </ul>
 <h2>Description</h2>
 <p>jQuery component for a combo box.</p>
-<h3>Now totally revamped!</h3>
+<h3 style='display: inline-block; color: red'>Now totally revamped!</h3>
 <h3>Features</h3>
 <ul>
   <li>A combo box with a dropdown list to select options.</li>
