@@ -603,6 +603,7 @@ function oyoComboBox(comboBoxWidth = "auto", comboBoxHeight = "auto") {
         if (index === -1) {
             index = 0;
         }
+        $(comboBoxInput).focus();
         scrollIntoView(index);
     });
 
