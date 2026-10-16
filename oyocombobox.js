@@ -138,9 +138,6 @@ function oyoComboBox(comboBoxWidth = "auto", comboBoxHeight = "auto") {
     $(comboBoxList).css("user-select", "none");
     $(comboBox).append(comboBoxList);
 
-    oyoLocalDataArea = new Object();
-    oyoLocalDataArea.which = 0;
-
     Object.defineProperty(comboBox, "options", {
         get: function () {
             return comboBoxOptions;
@@ -286,11 +283,10 @@ function oyoComboBox(comboBoxWidth = "auto", comboBoxHeight = "auto") {
                     hideListBox();
                 }
 
-                var which = oyoLocalDataArea.which;
-                if (Boolean(changed) || which === 9) {
+                var relatedTarget = event.relatedTarget;
+                if (Boolean(changed) || Boolean(relatedTarget)) {
                     comboBoxInput.setSelectionRange(0, 0);
                     comboBoxInput.scrollLeft = 0;
-                    oyoLocalDataArea.which = 0;
                 }
 
                 if (!comboBoxInput.readOnly) {
@@ -362,12 +358,6 @@ function oyoComboBox(comboBoxWidth = "auto", comboBoxHeight = "auto") {
      45 Insert
      46 Delete
      */
-
-    $(window).on("keydown", function (event) {
-        if (event.which === 9) {
-            oyoLocalDataArea.which = event.which;
-        }
-    });
 
     $(comboBoxInput).on("cut paste", function (event) {
         if (dropdownOnly) {
